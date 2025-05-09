@@ -27,7 +27,6 @@ public class LivroController {
     public String insert(Model ui) {
 
         ui.addAttribute("generos", generoRepo.findAll());
-
         return "/livros/insert";
     }
 
@@ -36,22 +35,22 @@ public class LivroController {
         @RequestParam("titulo") String titulo,
         @RequestParam("id_genero") long id_genero) {
 
-            Optional<Genero> genero = generoRepo.findById(id_genero);
+        Optional<Genero> genero = generoRepo.findById(id_genero);
 
-            if (genero.isPresent()) {
-                Livro livro = new Livro();
-                livro.setTitulo(titulo);
-                livro.setGenero(genero.get());
+        if(genero.isPresent()) {
+            Livro livro = new Livro();
+            livro.setTitulo(titulo);
+            livro.setGenero(genero.get());
 
-                livroRepo.save(livro);
-            }
-
-            return "redirect:/livros/list";
+            livroRepo.save(livro);
         }
+
+        return "redirect:/livros/list";
+    }
 
     @RequestMapping("/list")
     public String list(Model ui) {
-
+        
         ui.addAttribute("livros", livroRepo.findAll());
 
         return "/livros/list";
